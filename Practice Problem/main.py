@@ -1,4 +1,4 @@
-
+import InputData
 
 #Read the data
 path = 'Practice Problem/Downloads'
