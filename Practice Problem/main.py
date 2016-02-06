@@ -1,8 +1,9 @@
-import InputData
+from InputData import *
+from tools import *
 
 #Read the data
-path = 'Practice Problem/Downloads'
-files = ['/right_angle.in', '/logo.in', '/learn_and_teach.in']
-painting,M,N = InputData(path,files)
+path = '/Downloads/'
+files = ['right_angle.in', 'logo.in', 'learn_and_teach.in']
+N, M, painting = InputData(path, files[0])
 
-
+toile = [['.' for m in range(M)] for n in range(N)]
