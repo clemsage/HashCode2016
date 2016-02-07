@@ -11,12 +11,9 @@ def paint(toile, command):
 
 def paint_square(toile, R, C, S):
     N, M = len(toile), len(toile[0])
-    if S>0:
-        for r in range(2*S+1):
-            for c in range(2*S+1):
-                toile[R-S+r][C-S+c] = '#'
-    else:
-        print 'Rentrer un rayon positif !'
+    for r in range(2*S+1):
+        for c in range(2*S+1):
+            toile[R-S+r][C-S+c] = '#'
 
 def paint_line(toile, R1, C1, R2, C2):
     if R1 == R2:
