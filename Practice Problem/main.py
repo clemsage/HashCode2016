@@ -15,3 +15,10 @@ commands = MIP.mip(painting, N, M)
 
 print 'Number of commands : %d' % len(commands)
 print commands
+
+# Verify that the commands produce the target picture
+for cm in commands:
+    paint(toile,cm)
+
+for i in range(N):
+    print ''.join(toile[i])
