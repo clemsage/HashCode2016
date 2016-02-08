@@ -15,20 +15,21 @@ def mip(painting, n, m):
 
     # Preprocessing : determine the maximum length of vertical and horizontal lines
         #... To be done
-    max_vertical = 10
-    max_horizontal = 13
+    max_vertical = n + 1
+    max_horizontal = m + 1
 
     print 'Define all the valid commands for painting squares and lines'
-    Sq = [(R, C, S) for R in range(n) for C in range(m) for S in range(1 + int(math.floor((min(m, n)-1)/2))) if R+S < n and R-S >= 0 and C+S < m and C-S >= 0]
-    Li = [(R1, C1, R2, C2) for R1 in range(n) for C1 in range(m) for R2 in range(n) for C2 in range(m) if (R1 == R2 and math.fabs(C1-C2) < max_horizontal) or (C1 == C2 and math.fabs(R1-R2) < max_vertical)]
+    Sq = [(R, C, S) for R in range(n) for C in range(m) for S in range(1 + abs((min(m, n)-1)/2)) if R+S < n and R-S >= 0 and C+S < m and C-S >= 0]
+    Li = list()
+    for R1 in range(n):
+        for C1 in range(m):
+            for R2 in range(n):
+                for C2 in range(m):
+                    # The lines with the same beginning and ending cells and those which length is equal to one cell (already dealt by "square" variables) are not considered
+                    if (R1 == R2 and 0 < math.fabs(C1-C2) < max_horizontal) or (C1 == C2 and 0 < math.fabs(R1-R2) < max_vertical) and (R2, C2, R1, C1) not in Li:
+                        Li.append((R1, C1, R2, C2))
 
     print 'Number of squares founded : %d' % len(Sq)
-    print 'Number of lines founded : %d' % len(Li)
-
-    # Remove the lines with the same beginning and ending cells and those which length is equal to one cell (already dealt by "square" variables)
-    for li in Li:
-        Li.remove((li[2], li[3], li[0], li[1]))
-
     print 'Number of lines founded : %d' % len(Li)
 
     # Remove the lines for which its beginning or ending cell corresponds to a cell which has to remain clear
@@ -38,8 +39,26 @@ def mip(painting, n, m):
 
     print 'Number of lines founded : %d' % len(Li)
 
-    # Remove squares and lines which have more than 50% of empty cells inside them
-        #To do...
+    # Remove squares which have more empty cells than filled cells
+    for sq in Sq:
+        if sum(painting[sq[0]-sq[2]+r,sq[1]-sq[2]+c] for r in range(2*sq[2]+1) for c in range(2*sq[2]+1)) <= 0.5 * len([1 for r in range(2*sq[2]+1) for c in range(2*sq[2]+1)]):
+            Sq.remove(sq)
+
+    # Remove lines which have at least one empty cell : cheaper to generate multiple smaller lines rather than erase some of its cells
+    for li in Li:
+        if li[0] == li[2]:
+            for r in range(1+abs(li[3]-li[1])):
+                if painting[li[0], min(li[3], li[1]) + r] == 0:
+                    Li.remove(li)
+                    break
+        elif li[1] == li[3]:
+            for c in range(1+abs(li[0]-li[2])):
+                if painting[min(li[0],li[2]) + c, li[1]] == 0:
+                    Li.remove(li)
+                    break
+
+    print 'Number of squares founded : %d' % len(Sq)
+    print 'Number of lines founded : %d' % len(Li)
 
     print 'Define the variables'
     squares = {}

@@ -27,5 +27,9 @@ def paint_line(toile, R1, C1, R2, C2):
 
 def erase_cell(toile, R, C):
     toile[R][C] = '.'
-    
-    
+
+def write_commands(file,commands):
+    with open('Outputs/'+file+'.txt','w') as file:
+        file.write(str(len(commands))+"\n")
+        for cmd in commands:
+            file.write(cmd+'\n')
