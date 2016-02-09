@@ -1,5 +1,6 @@
 import pulp
 import math
+import time
 
 
 def mip(painting, n, m):
@@ -9,6 +10,7 @@ def mip(painting, n, m):
     :param n: Length of the painting
     :return: List of the optimal commands
     """
+    start_mip = time.time()
 
     print 'Define the problem'
     problem = pulp.LpProblem('PaintingOperations', sense=pulp.LpMinimize)
@@ -18,47 +20,38 @@ def mip(painting, n, m):
     max_vertical = n + 1
     max_horizontal = m + 1
 
-    print 'Define all the valid commands for painting squares and lines'
+    print "Define all the valid commands for squares..."
     Sq = [(R, C, S) for R in range(n) for C in range(m) for S in range(1 + abs((min(m, n)-1)/2)) if R+S < n and R-S >= 0 and C+S < m and C-S >= 0]
-    Li = list()
-    for R1 in range(n):
-        for C1 in range(m):
-            for R2 in range(n):
-                for C2 in range(m):
-                    # The lines with the same beginning and ending cells and those which length is equal to one cell (already dealt by "square" variables) are not considered
-                    if (R1 == R2 and 0 < math.fabs(C1-C2) < max_horizontal) or (C1 == C2 and 0 < math.fabs(R1-R2) < max_vertical) and (R2, C2, R1, C1) not in Li:
-                        Li.append((R1, C1, R2, C2))
+    print "Done. Total number of squares found: %d" % len(Sq)
 
-    print 'Number of squares founded : %d' % len(Sq)
-    print 'Number of lines founded : %d' % len(Li)
-
-    # Remove the lines for which its beginning or ending cell corresponds to a cell which has to remain clear
-    for li in Li:
-        if painting[li[0], li[1]] == 0 or painting[li[2], li[3]] == 0:
-            Li.remove(li)
-
-    print 'Number of lines founded : %d' % len(Li)
-
+    print "Removing useless squares..."
     # Remove squares which have more empty cells than filled cells
     for sq in Sq:
         if sum(painting[sq[0]-sq[2]+r,sq[1]-sq[2]+c] for r in range(2*sq[2]+1) for c in range(2*sq[2]+1)) <= 0.5 * len([1 for r in range(2*sq[2]+1) for c in range(2*sq[2]+1)]):
             Sq.remove(sq)
+    print "Done. New total number of squares: %d. Time taken : %d sec" % (len(Sq), (time.time() - start_mip))
+    
+    print 'Define all the valid and useful horizontal lines...'
+    Li = []
+    for R1 in range(n):
+        for C1 in range(m):
+            if painting[R1, C1] == 1:
+                for c in range(m-C1):
+                    if painting[R1, C1+c] == 0:
+                        Li.append((R1, C1, R1, C1+c-1))
+                        break
+    print "Done. Total number of horizontal lines found: %d" % len(Li)
 
-    # Remove lines which have at least one empty cell : cheaper to generate multiple smaller lines rather than erase some of its cells
-    for li in Li:
-        if li[0] == li[2]:
-            for r in range(1+abs(li[3]-li[1])):
-                if painting[li[0], min(li[3], li[1]) + r] == 0:
-                    Li.remove(li)
-                    break
-        elif li[1] == li[3]:
-            for c in range(1+abs(li[0]-li[2])):
-                if painting[min(li[0],li[2]) + c, li[1]] == 0:
-                    Li.remove(li)
-                    break
-
-    print 'Number of squares founded : %d' % len(Sq)
-    print 'Number of lines founded : %d' % len(Li)
+    print 'Define all the valid and useful vertical lines...'
+    Li2 = []
+    for C1 in range(m):
+        for R1 in range(n):
+            if painting[R1, C1] == 1:
+                for r in range(n-R1):
+                    if painting[R1+r, C1] == 0:
+                        Li.append((R1, C1, R1+r-1, C1))
+                        break
+    print "Done. Total number of lines found: %d. Time taken : %d sec" % (len(Li), (time.time() - start_mip))
 
     print 'Define the variables'
     squares = {}
