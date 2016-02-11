@@ -11,6 +11,7 @@ path = 'Downloads/'
 files = ['busy_day.in', 'mother_of_all_warehouses.in', 'redundancy.in']
 path += files[0]
 
+# Initialize objects
 with open(path, 'r') as fichier:
     contenu = fichier.readlines()
     row, col, D, T, max_load = map(int, contenu[0].split(' '))
@@ -45,6 +46,17 @@ with open(path, 'r') as fichier:
         for product_id in list(set(items)):
             item[product_id] = items.count(product_id)
         orders.append(order(l, a, b, L, item))
+
+# Simulation loop over time
+for t in range(T):
+    # Select the free drones
+    drones_to_load = [drone for drone in drones if drone.mouvement == 0 and drone.loaded == 0]
+    drones_to_deliver = [drone for drone in drones if drone.mouvement == 0 and drone.loaded == 1]
+
+    # Compute the metrics for the drones free
+    for drone in drones_to_load:
+        command =
+
 
 
 print 'Total time : %f min' % ((time.time() - start)/60.)

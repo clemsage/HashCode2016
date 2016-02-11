@@ -4,7 +4,9 @@ class drone:
         self.position = [x, y]
         self.charge = 0
         self.time = 0
-        self.state = "p"
+        self.mouvement = 0
+        self.loaded = 0
+        self.load = {}
 
 class product:
     def __init__(self, i, w):
