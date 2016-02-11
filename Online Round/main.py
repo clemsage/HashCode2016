@@ -1,6 +1,5 @@
 from tools import *
 from objets import *
-import MIP
 from metrics import *
 import time
 
@@ -10,7 +9,9 @@ start = time.time()
 # Read the data
 path = 'Downloads/'
 files = ['busy_day.in', 'mother_of_all_warehouses.in', 'redundancy.in']
-path += files[0]
+fichier = files[0]
+path += fichier
+output = 'Outputs/'+ fichier[:-3]+'.txt'
 
 # Initialize objects
 with open(path, 'r') as fichier:
@@ -35,7 +36,7 @@ with open(path, 'r') as fichier:
 
     drones = []
     for i in range(D):
-        drones.append(drone(i, warehouses[0].coords[0], warehouses[0].coords[1],P))
+        drones.append(drone(i, warehouses[0].coords[0], warehouses[0].coords[1],P, m))
 
     C = int(contenu[4+2*W])
     orders = []
@@ -68,6 +69,9 @@ for t in range(T):
 
     # Update the orders (completed or not, objects which hasn't been...)
 
+with open(output, 'w') as out:
+    msg = str(len(list_commandes))+'\n'+list_commandes.join('')
+    out.write(msg)
 
-
+    
 print 'Total time : %f min' % ((time.time() - start)/60.)

@@ -1,5 +1,7 @@
 from math import sqrt, ceil
 
+list_commandes = []
+
 def distance(drone, centre):
     return sqrt((drone.position[1]-centre.coords[1])**2
                 + (drone.position[0]-centre.coords[0])**2)
@@ -20,6 +22,8 @@ def load(drone_id, tag, warehouse_id, product_id, n_items):
     dr.charge = sum([n*self.weights[product_type] for product_type, n in self.load.items()])
     dr.position = wh.coords
     dr.mouvement = 0
+    msg = "%d %s %d %d %d\n" % (drone_id, tag, warehouse_id, product_id, n_items)
+    list_commandes.append(msg)
 
 
 def deliver(drone_id, tag, order_id, product_id, n_items):
@@ -41,6 +45,9 @@ def deliver(drone_id, tag, order_id, product_id, n_items):
     # on regarde si l'order est completed
     if len(list(set(order.values())))==1:
         order.completed = 1
+
+    msg = "%d %s %d %d %d\n" % (drone_id, tag, order_id, product_id, n_items)
+    list_commandes.append(msg)
 
 
 

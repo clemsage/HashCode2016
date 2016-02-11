@@ -1,5 +1,5 @@
 class drone:
-    def __init__(self, i, x, y, P,max_load):
+    def __init__(self, i, x, y, P, m):
         self.ID = i
         self.position = [x, y]
         self.charge = 0
@@ -9,6 +9,7 @@ class drone:
         self.loaded = 0
         self.load = {p : 0 for p in range(len(P))}
         self.weights = P
+        self.max_load = m
         
 class product:
     def __init__(self, i, w):
