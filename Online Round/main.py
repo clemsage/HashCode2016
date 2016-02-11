@@ -25,13 +25,14 @@ with open(path, 'r') as fichier:
         id_warehouses[l] = [a, b]
 
     C = int(contenu[4+2*W])
-    
     orders = {}
+    coord_orders = {}
     for l in range(C):
         a, b = map(int, contenu[5+2*W+3*l].split(' '))
         L = int(contenu[6+2*W+3*l]) # useless
         items = map(int, contenu[7+2*W+3*l].split(' '))
-        orders[a, b] = items
+        orders[l] = items
+        coord_orders[l] = [a, b]
 
 
 print 'Total time : %f min' % ((time.time() - start)/60.)
