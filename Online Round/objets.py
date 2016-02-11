@@ -1,8 +1,9 @@
 class drone:
-    def __init__(self, i, x, y, P):
+    def __init__(self, i, x, y, P,max_load):
         self.ID = i
         self.position = [x, y]
         self.charge = 0
+        self.max_load = max_load
         self.time = 0
         self.mouvement = 0
         self.loaded = 0
