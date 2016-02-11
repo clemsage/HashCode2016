@@ -12,7 +12,7 @@ path += files[0]
 
 with open(path, 'r') as fichier:
     contenu = fichier.readlines()
-    R, C, D, T, max_load = map(int, contenu[0].split(' '))
+    row, col, D, T, max_load = map(int, contenu[0].split(' '))
     P = int(contenu[1])
     weights = map(int, list(contenu[2].split(' ')))
     W = int(contenu[3])
