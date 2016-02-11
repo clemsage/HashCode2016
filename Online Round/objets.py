@@ -6,8 +6,9 @@ class drone:
         self.time = 0
         self.mouvement = 0
         self.loaded = 0
-        self.load = {p : 0 for p in range(P)}
-
+        self.load = {p : 0 for p in range(len(P))}
+        self.weights = P
+        
 class product:
     def __init__(self, i, w):
         self.ID = i
