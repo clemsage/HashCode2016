@@ -1,12 +1,12 @@
 class drone:
-    def __init__(self, i, x, y):
+    def __init__(self, i, x, y, P):
         self.ID = i
         self.position = [x, y]
         self.charge = 0
         self.time = 0
         self.mouvement = 0
         self.loaded = 0
-        self.load = {}
+        self.load = {p : 0 for p in range(P)}
 
 class product:
     def __init__(self, i, w):
@@ -19,7 +19,7 @@ class order:
         self.coords = [x, y]
         self.L = l
         self.items = items
-        sel.completed = 0
+        self.completed = 0
         
 class warehouse:
     def __init__(self, i, x, y, stock):
