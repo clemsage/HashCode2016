@@ -1,6 +1,7 @@
 from tools import *
 from objets import *
 import MIP
+from metrics import *
 import time
 
 # Measure the time spent to solve the MIP
@@ -34,7 +35,7 @@ with open(path, 'r') as fichier:
 
     drones = []
     for i in range(D):
-        drones.append(drone(i, warehouses[0].coords[0], warehouses[0].coords[1]))
+        drones.append(drone(i, warehouses[0].coords[0], warehouses[0].coords[1],P))
 
     C = int(contenu[4+2*W])
     orders = []
@@ -54,8 +55,8 @@ for t in range(T):
     drones_to_deliver = [drone for drone in drones if drone.mouvement == 0 and drone.loaded == 1]
 
     # Compute the metrics for the drones free
-    for drone in drones_to_load:
-        command =
+    for drone in drones_to_deliver:
+        drone_order = rank_orders(orders )
 
 
 
