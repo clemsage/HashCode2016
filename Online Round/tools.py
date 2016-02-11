@@ -26,6 +26,7 @@ def deliver(drone_id, tag, order_id, product_id, n_items):
     order = orders[order_id]
     dr = drones[drone_id]
     dr.mouvement = 1
+    dr.time = dr.time + ceil(distance(dr, order))+1
     if tag == 'D':
         order.items[product_id] = order.items[product_id] - n_items
         dr.load[product_id] = dr.load[product_id] - n_items
