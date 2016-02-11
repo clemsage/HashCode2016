@@ -55,8 +55,18 @@ for t in range(T):
     drones_to_deliver = [drone for drone in drones if drone.mouvement == 0 and drone.loaded == 1]
 
     # Compute the metrics for the drones free
+    drones_order = list()
     for drone in drones_to_deliver:
-        drone_order = rank_orders(orders )
+        drones_order.append(rank_orders(orders,drone,weights,warehouses))
+
+    for drone in drones_to_load:
+        drones_order.append(rank_warehouse(warehouses, drone))
+
+    # Update the coordinates and states (mouvement & loaded)  of the drones
+
+    # Update the stocks of the warehouses
+
+    # Update the orders (completed or not, objects which hasn't been...)
 
 
 
