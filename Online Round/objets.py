@@ -4,6 +4,7 @@ class drone:
         self.position = [x, y]
         self.charge = 0
         self.time = 0
+        self.state = "p"
 
 class product:
     def __init__(self, i, w):
@@ -16,6 +17,7 @@ class order:
         self.coords = [x, y]
         self.L = l
         self.items = items
+        sel.completed = 0
         
 class warehouse:
     def __init__(self, i, x, y, stock):
